@@ -10,7 +10,6 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 SAMPLE_DATA_DIR = PROJECT_ROOT / "data" / "synthetic" / "sample_data"
-PREPARED_DATA_DIR = PROJECT_ROOT / "data" / "dashboard_prepared"
 
 
 def get_engine():
@@ -267,39 +266,6 @@ def load_dashboard_data() -> tuple[dict[str, pd.DataFrame], str]:
         return tables, "PostgreSQL + dbt marts"
     except Exception:
         return build_sample_marts(), "built-in synthetic CSV data"
-
-
-def load_prepared_dashboard_data() -> tuple[dict[str, pd.DataFrame], str]:
-    required = [
-        "daily",
-        "pressure",
-        "quality",
-        "facility_filters",
-        "capacity",
-        "census",
-        "savings",
-        "demographics",
-        "demand",
-        "current_demand",
-        "projection",
-    ]
-    if not all((PREPARED_DATA_DIR / f"{name}.csv").exists() for name in required):
-        raise FileNotFoundError("Prepared dashboard tables are missing.")
-
-    tables = {
-        "daily": pd.read_csv(PREPARED_DATA_DIR / "daily.csv", parse_dates=["calendar_date"]),
-        "pressure": pd.read_csv(PREPARED_DATA_DIR / "pressure.csv", parse_dates=["calendar_date"]),
-        "quality": pd.read_csv(PREPARED_DATA_DIR / "quality.csv"),
-        "facility_filters": pd.read_csv(PREPARED_DATA_DIR / "facility_filters.csv"),
-        "capacity": pd.read_csv(PREPARED_DATA_DIR / "capacity.csv"),
-        "census": pd.read_csv(PREPARED_DATA_DIR / "census.csv"),
-        "savings": pd.read_csv(PREPARED_DATA_DIR / "savings.csv"),
-        "demographics": pd.read_csv(PREPARED_DATA_DIR / "demographics.csv"),
-        "demand": pd.read_csv(PREPARED_DATA_DIR / "demand.csv"),
-        "current_demand": pd.read_csv(PREPARED_DATA_DIR / "current_demand.csv"),
-        "projection": pd.read_csv(PREPARED_DATA_DIR / "projection.csv"),
-    }
-    return tables, "prepared synthetic dashboard tables"
 
 # if __name__ == "__main__":
 #     build_sample_marts()

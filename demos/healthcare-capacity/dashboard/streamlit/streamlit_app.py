@@ -1,5 +1,8 @@
 """Executive landing page for the hospital capacity dashboard."""
 
+from pathlib import Path
+
+import pandas as pd
 import streamlit as st
 
 import bootstrap  # noqa: F401
@@ -10,11 +13,46 @@ from utils.charts import (
     demographics_chart,
     savings_chart,
 )
-from utils.database import load_dashboard_data, load_prepared_dashboard_data
+from utils.database import load_dashboard_data
 from utils.report import executive_summary
 
 
 st.set_page_config(page_title="Executive Report", page_icon="🏥", layout="wide")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PREPARED_DATA_DIR = PROJECT_ROOT / "data" / "dashboard_prepared"
+
+
+def load_prepared_dashboard_data():
+    required = [
+        "daily",
+        "pressure",
+        "quality",
+        "facility_filters",
+        "capacity",
+        "census",
+        "savings",
+        "demographics",
+        "demand",
+        "current_demand",
+        "projection",
+    ]
+    if not all((PREPARED_DATA_DIR / f"{name}.csv").exists() for name in required):
+        raise FileNotFoundError("Prepared dashboard tables are missing.")
+
+    tables = {
+        "daily": pd.read_csv(PREPARED_DATA_DIR / "daily.csv", parse_dates=["calendar_date"]),
+        "pressure": pd.read_csv(PREPARED_DATA_DIR / "pressure.csv", parse_dates=["calendar_date"]),
+        "quality": pd.read_csv(PREPARED_DATA_DIR / "quality.csv"),
+        "facility_filters": pd.read_csv(PREPARED_DATA_DIR / "facility_filters.csv"),
+        "capacity": pd.read_csv(PREPARED_DATA_DIR / "capacity.csv"),
+        "census": pd.read_csv(PREPARED_DATA_DIR / "census.csv"),
+        "savings": pd.read_csv(PREPARED_DATA_DIR / "savings.csv"),
+        "demographics": pd.read_csv(PREPARED_DATA_DIR / "demographics.csv"),
+        "demand": pd.read_csv(PREPARED_DATA_DIR / "demand.csv"),
+        "current_demand": pd.read_csv(PREPARED_DATA_DIR / "current_demand.csv"),
+        "projection": pd.read_csv(PREPARED_DATA_DIR / "projection.csv"),
+    }
+    return tables, "prepared synthetic dashboard tables"
 
 
 @st.cache_data
@@ -79,8 +117,6 @@ def _build_fallback_dashboard_tables(raw_tables):
             result = frame.copy()
             result.insert(0, "facility_filter", facility_filter)
             prepared[name].append(result)
-
-    import pandas as pd
 
     for name, frames in list(prepared.items()):
         if isinstance(frames, list):
