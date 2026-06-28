@@ -1,0 +1,54 @@
+unit_id,unit_name,facility_id,hospital_name,service_id,unit_service,admission_type_focus
+UNT-3642,River Elective General Medicine C 1,FAC-001,North General Hospital,SVC-MED,General Medicine,Elective
+UNT-2704,North Emergency General Medicine B 2,FAC-001,North General Hospital,SVC-MED,General Medicine,Emergency
+UNT-1143,South Urgent General Medicine North Wing 3,FAC-001,North General Hospital,SVC-MED,General Medicine,Urgent
+UNT-3246,River Elective General Medicine B 4,FAC-001,North General Hospital,SVC-MED,General Medicine,Elective
+UNT-7786,River Emergency General Surgery A 1,FAC-001,North General Hospital,SVC-SRG,General Surgery,Emergency
+UNT-4786,Central Elective General Surgery C 2,FAC-001,North General Hospital,SVC-SRG,General Surgery,Elective
+UNT-9323,South Urgent General Surgery South Wing 3,FAC-001,North General Hospital,SVC-SRG,General Surgery,Urgent
+UNT-7815,Summit Emergency Child Health B 1,FAC-001,North General Hospital,SVC-CHD,Child Health,Emergency
+UNT-7805,East Elective Child Health West Wing 2,FAC-001,North General Hospital,SVC-CHD,Child Health,Elective
+UNT-8036,West Urgent Child Health B 3,FAC-001,North General Hospital,SVC-CHD,Child Health,Urgent
+UNT-4204,West Urgent Child Health West Wing 4,FAC-001,North General Hospital,SVC-CHD,Child Health,Urgent
+UNT-4456,North Elective Maternal Care East Wing 1,FAC-001,North General Hospital,SVC-MAT,Maternal Care,Elective
+UNT-7797,River Emergency Maternal Care B 2,FAC-001,North General Hospital,SVC-MAT,Maternal Care,Emergency
+UNT-9210,North Urgent Maternal Care South Wing 3,FAC-001,North General Hospital,SVC-MAT,Maternal Care,Urgent
+UNT-6457,Prairie Elective Mental Health East Wing 1,FAC-001,North General Hospital,SVC-MHU,Mental Health,Elective
+UNT-7062,East Emergency Mental Health A 2,FAC-001,North General Hospital,SVC-MHU,Mental Health,Emergency
+UNT-1340,Prairie Urgent Mental Health C 3,FAC-001,North General Hospital,SVC-MHU,Mental Health,Urgent
+UNT-4142,East Emergency Mental Health C 4,FAC-001,North General Hospital,SVC-MHU,Mental Health,Emergency
+UNT-5484,West Urgent General Medicine B 1,FAC-002,Central Community Hospital,SVC-MED,General Medicine,Urgent
+UNT-3882,Summit Emergency General Medicine A 2,FAC-002,Central Community Hospital,SVC-MED,General Medicine,Emergency
+UNT-7184,Prairie Elective General Medicine East Wing 3,FAC-002,Central Community Hospital,SVC-MED,General Medicine,Elective
+UNT-1386,West Elective General Surgery North Wing 1,FAC-002,Central Community Hospital,SVC-SRG,General Surgery,Elective
+UNT-1775,River Urgent General Surgery North Wing 2,FAC-002,Central Community Hospital,SVC-SRG,General Surgery,Urgent
+UNT-2162,Prairie Emergency General Surgery B 3,FAC-002,Central Community Hospital,SVC-SRG,General Surgery,Emergency
+UNT-2382,Summit Elective Child Health A 1,FAC-002,Central Community Hospital,SVC-CHD,Child Health,Elective
+UNT-2877,Central Urgent Child Health North Wing 2,FAC-002,Central Community Hospital,SVC-CHD,Child Health,Urgent
+UNT-5629,West Emergency Child Health East Wing 3,FAC-002,Central Community Hospital,SVC-CHD,Child Health,Emergency
+UNT-4757,West Elective Child Health East Wing 4,FAC-002,Central Community Hospital,SVC-CHD,Child Health,Elective
+UNT-1584,North Elective Maternal Care East Wing 1,FAC-002,Central Community Hospital,SVC-MAT,Maternal Care,Elective
+UNT-2938,South Emergency Maternal Care North Wing 2,FAC-002,Central Community Hospital,SVC-MAT,Maternal Care,Emergency
+UNT-6334,East Urgent Maternal Care North Wing 3,FAC-002,Central Community Hospital,SVC-MAT,Maternal Care,Urgent
+UNT-9586,North Urgent Maternal Care South Wing 4,FAC-002,Central Community Hospital,SVC-MAT,Maternal Care,Urgent
+UNT-8373,East Elective Mental Health C 1,FAC-002,Central Community Hospital,SVC-MHU,Mental Health,Elective
+UNT-4196,Summit Urgent Mental Health South Wing 2,FAC-002,Central Community Hospital,SVC-MHU,Mental Health,Urgent
+UNT-9936,Central Emergency Mental Health East Wing 3,FAC-002,Central Community Hospital,SVC-MHU,Mental Health,Emergency
+UNT-9775,North Urgent Mental Health C 4,FAC-002,Central Community Hospital,SVC-MHU,Mental Health,Urgent
+UNT-2027,River Elective General Medicine East Wing 1,FAC-003,South Medical Center,SVC-MED,General Medicine,Elective
+UNT-8397,Summit Emergency General Medicine North Wing 2,FAC-003,South Medical Center,SVC-MED,General Medicine,Emergency
+UNT-7885,Central Urgent General Medicine North Wing 3,FAC-003,South Medical Center,SVC-MED,General Medicine,Urgent
+UNT-3486,West Urgent General Surgery A 1,FAC-003,South Medical Center,SVC-SRG,General Surgery,Urgent
+UNT-6147,Prairie Emergency General Surgery C 2,FAC-003,South Medical Center,SVC-SRG,General Surgery,Emergency
+UNT-1181,North Elective General Surgery A 3,FAC-003,South Medical Center,SVC-SRG,General Surgery,Elective
+UNT-8167,River Elective Child Health North Wing 1,FAC-003,South Medical Center,SVC-CHD,Child Health,Elective
+UNT-7408,Prairie Emergency Child Health B 2,FAC-003,South Medical Center,SVC-CHD,Child Health,Emergency
+UNT-6320,Central Urgent Child Health C 3,FAC-003,South Medical Center,SVC-CHD,Child Health,Urgent
+UNT-3103,River Emergency Child Health A 4,FAC-003,South Medical Center,SVC-CHD,Child Health,Emergency
+UNT-6569,Central Emergency Maternal Care B 1,FAC-003,South Medical Center,SVC-MAT,Maternal Care,Emergency
+UNT-6271,Central Elective Maternal Care B 2,FAC-003,South Medical Center,SVC-MAT,Maternal Care,Elective
+UNT-1171,Summit Urgent Maternal Care C 3,FAC-003,South Medical Center,SVC-MAT,Maternal Care,Urgent
+UNT-9517,South Elective Maternal Care West Wing 4,FAC-003,South Medical Center,SVC-MAT,Maternal Care,Elective
+UNT-1432,East Emergency Mental Health C 1,FAC-003,South Medical Center,SVC-MHU,Mental Health,Emergency
+UNT-2665,South Urgent Mental Health B 2,FAC-003,South Medical Center,SVC-MHU,Mental Health,Urgent
+UNT-1881,River Elective Mental Health East Wing 3,FAC-003,South Medical Center,SVC-MHU,Mental Health,Elective

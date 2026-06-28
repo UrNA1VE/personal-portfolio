@@ -1,0 +1,6 @@
+service_id,service_name,service_group
+SVC-MED,General Medicine,Medical
+SVC-SRG,General Surgery,Surgical
+SVC-CHD,Child Health,Specialty
+SVC-MAT,Maternal Care,Specialty
+SVC-MHU,Mental Health,Medical

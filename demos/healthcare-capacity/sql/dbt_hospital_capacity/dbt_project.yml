@@ -1,0 +1,21 @@
+name: dbt_hospital_capacity
+version: "1.0.0"
+config-version: 2
+
+profile: dbt_hospital_capacity
+
+model-paths: ["models"]
+test-paths: ["tests"]
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  dbt_hospital_capacity:
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+    marts:
+      +schema: marts
+      +materialized: table

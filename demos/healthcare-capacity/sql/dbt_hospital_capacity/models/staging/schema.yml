@@ -1,0 +1,69 @@
+version: 2
+
+models:
+  - name: stg_visits
+    columns:
+      - name: visit_id
+        tests: [unique, not_null]
+      - name: patient_id
+        tests: [not_null]
+      - name: facility_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_facilities')
+              field: facility_id
+      - name: service_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_services')
+              field: service_id
+      - name: diagnosis_code
+        tests: [not_null]
+      - name: age
+        tests: [not_null]
+      - name: gender
+        tests:
+          - accepted_values:
+              values: ["Female", "Male"]
+      - name: admission_ts
+        tests: [not_null]
+      - name: discharge_ts
+        tests: [not_null]
+      - name: admission_type
+        tests:
+          - accepted_values:
+              values: ["Emergency", "Urgent", "Elective"]
+      - name: alclos
+        tests: [not_null]
+      - name: elos
+        tests: [not_null]
+      - name: riwexcl
+        tests:
+          - accepted_values:
+              values: ["00", "01", "10"]
+      - name: trim_days
+        tests: [not_null]
+  - name: stg_facilities
+    columns:
+      - name: facility_id
+        tests: [unique, not_null]
+      - name: facility_name
+        tests: [not_null]
+  - name: stg_services
+    columns:
+      - name: service_id
+        tests: [unique, not_null]
+      - name: service_name
+        tests: [not_null]
+  - name: stg_capacity
+    columns:
+      - name: capacity_date
+        tests: [not_null]
+      - name: facility_id
+        tests: [not_null]
+      - name: service_id
+        tests: [not_null]
+      - name: staffed_beds
+        tests: [not_null]

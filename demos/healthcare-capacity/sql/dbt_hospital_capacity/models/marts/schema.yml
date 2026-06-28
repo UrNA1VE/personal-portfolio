@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: fct_hourly_census
+    columns:
+      - name: hour_ts
+        tests: [not_null]
+      - name: facility_id
+        tests: [not_null]
+      - name: service_id
+        tests: [not_null]
+      - name: census
+        tests: [not_null]
+  - name: fct_daily_utilization
+    columns:
+      - name: calendar_date
+        tests: [not_null]
+      - name: staffed_beds
+        tests: [not_null]
+      - name: peak_utilization
+        tests: [not_null]
+  - name: fct_service_capacity_pressure
+    columns:
+      - name: pressure_level
+        tests:
+          - accepted_values:
+              values: ["Normal", "High", "Severe", "Critical"]
+  - name: fct_data_quality_summary
+    columns:
+      - name: check_name
+        tests: [unique, not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              values: ["pass", "warn"]

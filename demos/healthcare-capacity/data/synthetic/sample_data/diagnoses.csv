@@ -1,0 +1,16 @@
+diagnosis_code,diagnosis_name,service_id,elos_days,trim_days,adult_weight
+DX-MED-CHF,Heart failure exacerbation,SVC-MED,5.2,12,0.32
+DX-MED-PNE,Respiratory infection,SVC-MED,4.4,10,0.28
+DX-MED-DIA,Diabetes complication,SVC-MED,3.8,9,0.22
+DX-SRG-ORT,Orthopedic procedure,SVC-SRG,3.5,8,0.34
+DX-SRG-ABD,Abdominal surgery,SVC-SRG,4.0,9,0.3
+DX-SRG-URO,Urology procedure,SVC-SRG,2.2,6,0.18
+DX-CHD-RSV,Pediatric respiratory illness,SVC-CHD,2.8,7,0.05
+DX-CHD-GI,Pediatric gastroenteritis,SVC-CHD,1.7,5,0.04
+DX-CHD-OBS,Pediatric observation,SVC-CHD,1.2,4,0.03
+DX-MAT-DEL,Delivery episode,SVC-MAT,1.8,5,0.36
+DX-MAT-CSE,Cesarean delivery,SVC-MAT,3.2,7,0.26
+DX-MAT-ANT,Antenatal complication,SVC-MAT,2.6,6,0.18
+DX-MHU-MDD,Mood disorder admission,SVC-MHU,8.5,21,0.3
+DX-MHU-PSY,Psychosis stabilization,SVC-MHU,11.0,28,0.24
+DX-MHU-SUD,Substance use crisis,SVC-MHU,4.8,12,0.2
