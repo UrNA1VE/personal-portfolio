@@ -134,6 +134,18 @@ const {
     font-size: clamp(1.05rem, 2vw, 1.18rem);
   }
 
+  .role {
+    color: var(--ink);
+    font-size: 1.05rem;
+    font-weight: 800;
+  }
+
+  .quote {
+    color: #33465a;
+    font-size: 0.98rem;
+    font-style: italic;
+  }
+
   .project-list {
     display: grid;
     gap: 18px;
@@ -167,6 +179,20 @@ const {
     color: var(--accent);
     background: var(--accent-soft);
     font-weight: 800;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 6px 10px;
+    border: 1px solid #d6b863;
+    border-radius: 999px;
+    color: #72520f;
+    background: #fff8df;
+    font-size: 0.82rem;
+    font-weight: 800;
+    white-space: nowrap;
   }
 
   .chip-row,
@@ -207,6 +233,22 @@ const {
     padding-top: 18px;
     border-top: 1px solid var(--line);
     font-size: 0.95rem;
+  }
+
+  .page-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+
+  .page-footer a {
+    color: var(--accent);
+    font-weight: 750;
+    text-decoration: none;
   }
 
   @media (max-width: 680px) {

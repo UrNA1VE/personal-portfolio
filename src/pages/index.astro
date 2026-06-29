@@ -7,6 +7,7 @@ const projects = [
   {
     number: "1",
     title: "Hospital Capacity Analytics",
+    status: "In progress",
     summary:
       "A synthetic healthcare analytics project showing how patient-flow and capacity data can be generated, transformed, validated, modeled, and presented through dashboard-ready outputs.",
     skills: [
@@ -18,7 +19,7 @@ const projects = [
     ],
     links: [
       {
-        label: "Work",
+        label: "Code",
         href: `${repoBase}/demos/healthcare-capacity`,
         variant: "secondary",
       },
@@ -33,13 +34,14 @@ const projects = [
     number: "2",
     title: "Statistical Modelling",
     summary:
-      "A grouped set of graduate modeling projects covering statistical learning and Bayesian analysis, linked to the original reports and code repositories.",
+      "A grouped set of graduate projects covering statistical learning, Bayesian modelling, and computational statistics through original reports and code repositories.",
     skills: [
       "Statistical learning",
       "Bayesian MCMC",
       "Model comparison",
       "Model diagnostics",
-      "R Markdown",
+      "Computational statistics",
+      "R Markdown / Notebook",
     ],
     links: [
       {
@@ -52,25 +54,29 @@ const projects = [
         href: "https://github.com/UrNA1VE/Vehicle-Insurance-Prediction-MachineLearning",
         variant: "secondary",
       },
+      {
+        label: "GCR-Project",
+        href: `${repoBase}/demos/gcr-computational-analysis`,
+        variant: "secondary",
+      },
     ],
   },
   {
     number: "3",
-    title: "Computational Statistics",
+    title: "Data Structure & Algorithm",
     summary:
-      "A computational contribution to generalized crack distribution work, focused on simulation, density evaluation, parameter estimation, EM-style routines, and goodness-of-fit computation.",
+      "A repository for data structure and algorithm practice, including LeetCode-style problem solving and implementation notes.",
     skills: [
-      "Simulation",
-      "Random-number generation",
-      "Maximum likelihood estimation",
-      "Method of moments",
-      "EM algorithm",
-      "Goodness-of-fit testing",
+      "Data structures",
+      "Algorithms",
+      "Python",
+      "Problem solving",
+      "LeetCode",
     ],
     links: [
       {
-        label: "GCR-Project",
-        href: `${repoBase}/demos/gcr-computational-analysis`,
+        label: "Code",
+        href: "https://github.com/UrNA1VE/DataStructure-Algorithm",
         variant: "primary",
       },
     ],
@@ -83,8 +89,9 @@ const projects = [
   description="Brief personal portfolio for data analytics, statistical modeling, and computational projects."
 >
   <section class="intro">
-    <p class="eyebrow">Data analytics portfolio</p>
     <h1>Qiankang Wang</h1>
+    <p class="role">Data Analytics | BI | Analytics Engineering</p>
+    <p class="quote">"There are no men like me. There's only me." - A Song of Ice and Fire</p>
     <p class="lead">
       Data Analytics and Decision Science professional with expertise delivering SQL-based
       analysis, KPI reporting, and stakeholder-facing decision support across complex operational
@@ -92,6 +99,11 @@ const projects = [
       Power BI, Python/R analysis, data validation, and translating business questions into
       reliable insights.
     </p>
+    <div class="link-row">
+      <a class="project-link" href="https://github.com/UrNA1VE" target="_blank" rel="noreferrer">
+        GitHub
+      </a>
+    </div>
   </section>
 
   <section aria-labelledby="projects-heading">
@@ -105,7 +117,13 @@ const projects = [
                 <p class="eyebrow">Project {project.number}</p>
                 <h3>{project.title}</h3>
               </div>
-              <span class="project-number" aria-hidden="true">{project.number}</span>
+              {
+                project.status ? (
+                  <span class="status-pill">{project.status}</span>
+                ) : (
+                  <span class="project-number" aria-hidden="true">{project.number}</span>
+                )
+              }
             </header>
             <p>{project.summary}</p>
             <div class="chip-row" aria-label={`${project.title} technical skills`}>
@@ -129,10 +147,10 @@ const projects = [
         ))
       }
     </div>
-    <p class="note">
-      Portfolio data is synthetic or public-safe. For the GCR project, the page describes only my
-      computational implementation contribution.
-    </p>
   </section>
 
+  <footer class="page-footer">
+    <p>Portfolio data is synthetic or public-safe.</p>
+    <a href="mailto:qkwang98@outlook.com">qkwang98@outlook.com</a>
+  </footer>
 </BaseLayout>
