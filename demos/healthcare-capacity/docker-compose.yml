@@ -1,19 +1,12 @@
 services:
-  postgres:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: hospital_capacity
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+  healthcare-capacity-dashboard:
+    build:
+      context: .
+    image: healthcare-capacity-dashboard:local
     ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d hospital_capacity"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      - "8501:8501"
     volumes:
-      - hospital_capacity_postgres:/var/lib/postgresql/data
-
-volumes:
-  hospital_capacity_postgres:
+      - ./data:/app/data
+    environment:
+      STREAMLIT_SERVER_HEADLESS: "true"
+      STREAMLIT_BROWSER_GATHER_USAGE_STATS: "false"

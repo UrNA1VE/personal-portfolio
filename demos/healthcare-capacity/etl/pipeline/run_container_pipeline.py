@@ -1,8 +1,8 @@
-"""Local Blob -> DuckDB/dbt-style -> Blob pipeline for the dashboard demo.
+"""Container-local data -> DuckDB/dbt-style pipeline for the dashboard demo.
 
-This is a local stand-in for the Azure design:
+This is a lightweight runtime workflow for the containerized Streamlit app:
 
-raw Blob zone -> validation report -> DuckDB/dbt-style transforms -> dashboard_prepared.
+container raw data -> validation report -> DuckDB/dbt-style transforms -> dashboard_prepared.
 """
 
 from __future__ import annotations
@@ -42,10 +42,10 @@ from etl.synthetic_data_generator.generate_fake_data import (  # noqa: E402
 )
 
 
-LOCAL_BLOB_ROOT = PROJECT_ROOT / "data" / "blob"
-RAW_BLOB_DIR = LOCAL_BLOB_ROOT / "raw"
-BACKUP_BLOB_DIR = LOCAL_BLOB_ROOT / "backup"
-REPORT_BLOB_DIR = LOCAL_BLOB_ROOT / "reports"
+CONTAINER_DATA_ROOT = PROJECT_ROOT / "data" / "container"
+RAW_DATA_DIR = CONTAINER_DATA_ROOT / "raw"
+BACKUP_DATA_DIR = CONTAINER_DATA_ROOT / "backup"
+REPORT_DATA_DIR = CONTAINER_DATA_ROOT / "reports"
 ETL_PREPARED_DIR = PROJECT_ROOT / "data" / "etl_prepared"
 DASHBOARD_PREPARED_DIR = PROJECT_ROOT / "data" / "dashboard_prepared"
 EDITABLE_RAW_FILES = ["patients.csv", "admission_chart.csv", "patient_events.csv"]
@@ -457,8 +457,8 @@ def write_tables_with_duckdb(tables: dict[str, pd.DataFrame], output_dir: Path) 
         connection.close()
 
 
-def clear_local_blob_runs() -> None:
-    for folder in (RAW_BLOB_DIR, REPORT_BLOB_DIR):
+def clear_container_run_data() -> None:
+    for folder in (RAW_DATA_DIR, REPORT_DATA_DIR):
         if folder.exists():
             shutil.rmtree(folder)
         folder.mkdir(parents=True, exist_ok=True)
@@ -486,17 +486,17 @@ def write_etl_prepared_tables(sources: dict[str, pd.DataFrame]) -> None:
 
 
 def refresh_raw_backup() -> None:
-    if BACKUP_BLOB_DIR.exists():
-        shutil.rmtree(BACKUP_BLOB_DIR)
-    BACKUP_BLOB_DIR.mkdir(parents=True, exist_ok=True)
+    if BACKUP_DATA_DIR.exists():
+        shutil.rmtree(BACKUP_DATA_DIR)
+    BACKUP_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     for file_name in EDITABLE_RAW_FILES:
-        shutil.copy2(RAW_BLOB_DIR / file_name, BACKUP_BLOB_DIR / file_name)
+        shutil.copy2(RAW_DATA_DIR / file_name, BACKUP_DATA_DIR / file_name)
 
 
 def run_etl_from_existing_raw() -> dict[str, object]:
-    raw_dir = RAW_BLOB_DIR
-    report_dir = REPORT_BLOB_DIR
+    raw_dir = RAW_DATA_DIR
+    report_dir = REPORT_DATA_DIR
     clear_etl_prepared()
     clear_dashboard_prepared()
     report_dir.mkdir(parents=True, exist_ok=True)
@@ -530,10 +530,10 @@ def run_etl_from_existing_raw() -> dict[str, object]:
     }
 
 def run_fake_data_pipeline(seed: int, days: int = 30, start_date: str = "2025-01-01") -> PipelineResult:
-    clear_local_blob_runs()
+    clear_container_run_data()
 
-    raw_dir = RAW_BLOB_DIR
-    report_dir = REPORT_BLOB_DIR
+    raw_dir = RAW_DATA_DIR
+    report_dir = REPORT_DATA_DIR
     raw_dir.mkdir(parents=True, exist_ok=True)
     report_dir.mkdir(parents=True, exist_ok=True)
 

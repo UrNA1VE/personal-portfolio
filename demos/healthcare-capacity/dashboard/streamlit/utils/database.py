@@ -10,6 +10,9 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 SAMPLE_DATA_DIR = PROJECT_ROOT / "data" / "synthetic" / "sample_data"
+RAW_DATA_DIR = PROJECT_ROOT / "data" / "container" / "raw"
+ETL_PREPARED_DIR = PROJECT_ROOT / "data" / "etl_prepared"
+DASHBOARD_PREPARED_DIR = PROJECT_ROOT / "data" / "dashboard_prepared"
 
 
 def get_engine():
@@ -85,6 +88,82 @@ def read_sample_sources() -> dict[str, pd.DataFrame]:
         "diagnoses": pd.read_csv(SAMPLE_DATA_DIR / "diagnoses.csv"),
         "population_growth": pd.read_csv(SAMPLE_DATA_DIR / "population_growth.csv"),
         "capacity": pd.read_csv(SAMPLE_DATA_DIR / "capacity.csv", parse_dates=["capacity_date"]),
+    }
+
+
+def read_prepared_dashboard_sources() -> dict[str, pd.DataFrame]:
+    required_files = [
+        DASHBOARD_PREPARED_DIR / "daily.csv",
+        DASHBOARD_PREPARED_DIR / "pressure.csv",
+        DASHBOARD_PREPARED_DIR / "quality.csv",
+        DASHBOARD_PREPARED_DIR / "capacity.csv",
+        DASHBOARD_PREPARED_DIR / "census.csv",
+        DASHBOARD_PREPARED_DIR / "savings.csv",
+        DASHBOARD_PREPARED_DIR / "demographics.csv",
+        DASHBOARD_PREPARED_DIR / "demand.csv",
+        DASHBOARD_PREPARED_DIR / "current_demand.csv",
+        DASHBOARD_PREPARED_DIR / "projection.csv",
+        DASHBOARD_PREPARED_DIR / "facility_filters.csv",
+        ETL_PREPARED_DIR / "visits.csv",
+        RAW_DATA_DIR / "facilities.csv",
+        RAW_DATA_DIR / "services.csv",
+        RAW_DATA_DIR / "units.csv",
+        RAW_DATA_DIR / "diagnoses.csv",
+        RAW_DATA_DIR / "population_growth.csv",
+        RAW_DATA_DIR / "capacity.csv",
+        RAW_DATA_DIR / "admission_chart.csv",
+        RAW_DATA_DIR / "patient_events.csv",
+    ]
+    if not all(path.exists() for path in required_files):
+        raise FileNotFoundError("Prepared dashboard data is missing.")
+
+    visits = pd.read_csv(ETL_PREPARED_DIR / "visits.csv", parse_dates=["admission_ts", "discharge_ts"])
+    admission_chart = pd.read_csv(RAW_DATA_DIR / "admission_chart.csv", parse_dates=["admission_ts"])
+    patient_events = pd.read_csv(RAW_DATA_DIR / "patient_events.csv", parse_dates=["event_ts"])
+    unit_changes = (
+        pd.concat(
+            [
+                admission_chart[
+                    ["visit_id", "admission_ts", "facility_id", "admitted_unit_id"]
+                ].rename(
+                    columns={
+                        "admission_ts": "event_ts",
+                        "admitted_unit_id": "unit_id",
+                    }
+                ).assign(unit_change_id=lambda frame: "ADM-" + frame["visit_id"].astype(str)),
+                patient_events[patient_events["type"] == "location"]
+                .rename(columns={"event_id": "unit_change_id", "value": "unit_id"})
+                [["unit_change_id", "visit_id", "event_ts", "facility_id", "unit_id"]],
+            ],
+            ignore_index=True,
+        )
+        .sort_values(["visit_id", "event_ts", "unit_change_id"])
+        .reset_index(drop=True)
+    )
+
+    return {
+        "daily": pd.read_csv(DASHBOARD_PREPARED_DIR / "daily.csv", parse_dates=["calendar_date"]),
+        "pressure": pd.read_csv(DASHBOARD_PREPARED_DIR / "pressure.csv", parse_dates=["calendar_date"]),
+        "quality": pd.read_csv(DASHBOARD_PREPARED_DIR / "quality.csv"),
+        "capacity": pd.read_csv(DASHBOARD_PREPARED_DIR / "capacity.csv"),
+        "census": pd.read_csv(DASHBOARD_PREPARED_DIR / "census.csv"),
+        "savings": pd.read_csv(DASHBOARD_PREPARED_DIR / "savings.csv"),
+        "demographics": pd.read_csv(DASHBOARD_PREPARED_DIR / "demographics.csv"),
+        "demand": pd.read_csv(DASHBOARD_PREPARED_DIR / "demand.csv"),
+        "current_demand": pd.read_csv(DASHBOARD_PREPARED_DIR / "current_demand.csv"),
+        "projection": pd.read_csv(DASHBOARD_PREPARED_DIR / "projection.csv"),
+        "facility_filters": pd.read_csv(DASHBOARD_PREPARED_DIR / "facility_filters.csv"),
+        "visits": visits,
+        "raw_visits": visits.copy(),
+        "admission_chart": admission_chart,
+        "facilities": pd.read_csv(RAW_DATA_DIR / "facilities.csv"),
+        "services": pd.read_csv(RAW_DATA_DIR / "services.csv"),
+        "units": pd.read_csv(RAW_DATA_DIR / "units.csv"),
+        "unit_changes": unit_changes,
+        "diagnoses": pd.read_csv(RAW_DATA_DIR / "diagnoses.csv"),
+        "population_growth": pd.read_csv(RAW_DATA_DIR / "population_growth.csv"),
+        "raw_capacity": pd.read_csv(RAW_DATA_DIR / "capacity.csv", parse_dates=["capacity_date"]),
+        "patient_events": patient_events,
     }
 
 
@@ -253,6 +332,11 @@ def build_sample_marts() -> dict[str, pd.DataFrame]:
 
 
 def load_dashboard_data() -> tuple[dict[str, pd.DataFrame], str]:
+    try:
+        return read_prepared_dashboard_sources(), "prepared container-local pipeline data"
+    except Exception:
+        pass
+
     try:
         sources = read_sample_sources()
         reporting_start, reporting_end = _reporting_window(sources["capacity"])

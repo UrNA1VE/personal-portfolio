@@ -1,7 +1,7 @@
 {
   "seed": 42,
-  "raw_dir": "/Users/qiankangwang/Desktop/personal-portfolio/demos/healthcare-capacity/data/blob/raw",
-  "report_dir": "/Users/qiankangwang/Desktop/personal-portfolio/demos/healthcare-capacity/data/blob/reports",
+  "raw_dir": "/Users/qiankangwang/Desktop/personal-portfolio/demos/healthcare-capacity/data/container/raw",
+  "report_dir": "/Users/qiankangwang/Desktop/personal-portfolio/demos/healthcare-capacity/data/container/reports",
   "etl_prepared_dir": "/Users/qiankangwang/Desktop/personal-portfolio/demos/healthcare-capacity/data/etl_prepared",
   "prepared_dir": "/Users/qiankangwang/Desktop/personal-portfolio/demos/healthcare-capacity/data/dashboard_prepared",
   "validation_status": "pass",

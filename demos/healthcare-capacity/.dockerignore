@@ -1,0 +1,11 @@
+.DS_Store
+.pytest_cache/
+.venv/
+__pycache__/
+*.pyc
+logs/
+
+# Local development and documentation files are not needed in the runtime image.
+ENVIRONMENT.md
+notebooks/
+tests/

@@ -7,7 +7,7 @@ import streamlit as st
 
 import bootstrap  # noqa: F401
 from etl.event_editor.editor import add_admission, add_event, add_patient, remove_event, retrieve_back_up, update_event
-from etl.pipeline.run_blob_duckdb_pipeline import RAW_BLOB_DIR, run_etl_from_existing_raw
+from etl.pipeline.run_container_pipeline import RAW_DATA_DIR, run_etl_from_existing_raw
 
 
 st.set_page_config(page_title="User Editor", page_icon="✏️", layout="wide")
@@ -15,11 +15,11 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
 def raw_file_exists(file_name: str) -> bool:
-    return (RAW_BLOB_DIR / file_name).exists()
+    return (RAW_DATA_DIR / file_name).exists()
 
 
 def load_raw_table(file_name: str, **kwargs) -> pd.DataFrame:
-    path = RAW_BLOB_DIR / file_name
+    path = RAW_DATA_DIR / file_name
     return pd.read_csv(path, **kwargs) if path.exists() else pd.DataFrame()
 
 

@@ -9,7 +9,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 sys.path.insert(0, str(PROJECT_ROOT / "etl"))
 
 from dashboard.streamlit.utils.database import _reporting_window, _unit_changes_overlapping_window, _visits_overlapping_window
-from etl.pipeline.run_blob_duckdb_pipeline import build_encounter_tables_from_events
+from etl.pipeline.run_container_pipeline import build_encounter_tables_from_events
 from synthetic_data_generator.generate_fake_data import GeneratorConfig, generate_all
 
 

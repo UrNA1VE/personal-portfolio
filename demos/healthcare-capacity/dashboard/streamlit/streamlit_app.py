@@ -6,7 +6,7 @@ import pandas as pd
 import streamlit as st
 
 import bootstrap  # noqa: F401
-from etl.pipeline.run_blob_duckdb_pipeline import RAW_BLOB_DIR, REPORT_BLOB_DIR, run_fake_data_pipeline
+from etl.pipeline.run_container_pipeline import RAW_DATA_DIR, REPORT_DATA_DIR, run_fake_data_pipeline
 
 
 st.set_page_config(page_title="Healthcare Capacity Pipeline", page_icon="🏥", layout="wide")
@@ -55,7 +55,7 @@ st.caption("Generate synthetic event-level source data, validate it, and build d
 with st.expander("Data Generator", expanded=True):
     seed = st.number_input("Seed", min_value=1, max_value=999999, value=42, step=1)
     if st.button("Generate fake data", type="primary"):
-        with st.spinner("Generating raw data, writing to Blob-style storage, validating, and transforming..."):
+        with st.spinner("Generating container-local raw data, validating, and transforming..."):
             result = run_fake_data_pipeline(seed=int(seed))
         read_csv_preview.clear()
         st.success(
@@ -70,14 +70,14 @@ tab_event, tab_reference, tab_aggregated = st.tabs(["Event Data", "Reference Dat
 
 with tab_event:
     st.subheader("Event Data")
-    data_viewer("Event", RAW_BLOB_DIR, EVENT_SOURCE_FILES)
+    data_viewer("Event", RAW_DATA_DIR, EVENT_SOURCE_FILES)
 
     st.subheader("Data Check Report")
-    data_viewer("Report", REPORT_BLOB_DIR)
+    data_viewer("Report", REPORT_DATA_DIR)
 
 with tab_reference:
     st.subheader("Reference Data")
-    data_viewer("Reference", RAW_BLOB_DIR, REFERENCE_SOURCE_FILES)
+    data_viewer("Reference", RAW_DATA_DIR, REFERENCE_SOURCE_FILES)
 
 with tab_aggregated:
     st.subheader("Aggregated Data")

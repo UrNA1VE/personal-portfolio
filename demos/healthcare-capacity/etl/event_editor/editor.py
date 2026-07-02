@@ -10,8 +10,8 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
-RAW_BLOB_DIR = PROJECT_ROOT / "data" / "blob" / "raw"
-BACKUP_BLOB_DIR = PROJECT_ROOT / "data" / "blob" / "backup"
+RAW_DATA_DIR = PROJECT_ROOT / "data" / "container" / "raw"
+BACKUP_DATA_DIR = PROJECT_ROOT / "data" / "container" / "backup"
 EDITABLE_RAW_FILES = ["patients.csv", "admission_chart.csv", "patient_events.csv"]
 from etl.synthetic_data_generator.generate_fake_data import write_csvs
 
@@ -25,7 +25,7 @@ def _next_id(frame: pd.DataFrame, column: str, prefix: str, width: int) -> str:
 
 
 def add_patient(age: int, gender: str, region: str) -> str:
-    raw_table = {"patients": pd.read_csv(RAW_BLOB_DIR / "patients.csv")}
+    raw_table = {"patients": pd.read_csv(RAW_DATA_DIR / "patients.csv")}
     patients = raw_table["patients"]
     patient_id = _next_id(patients, "patient_id", "PAT-", 6)
     new_patient = pd.DataFrame([
@@ -39,7 +39,7 @@ def add_patient(age: int, gender: str, region: str) -> str:
 
     patients = pd.concat([patients, new_patient], ignore_index=True)
     raw_table["patients"] = patients
-    write_csvs(raw_table, RAW_BLOB_DIR)
+    write_csvs(raw_table, RAW_DATA_DIR)
     return patient_id
 
 
@@ -51,7 +51,7 @@ def add_admission(
     admitted_diagnosis_code: str,
     admission_type: str,
 ) -> str:
-    raw_table = {"admission_chart": pd.read_csv(RAW_BLOB_DIR / "admission_chart.csv")}
+    raw_table = {"admission_chart": pd.read_csv(RAW_DATA_DIR / "admission_chart.csv")}
     admission_chart = raw_table["admission_chart"]
     admission_ts = pd.Timestamp.now().floor("min")
 
@@ -68,7 +68,7 @@ def add_admission(
     }])
     admission_chart = pd.concat([admission_chart, new_admission], ignore_index=True)
     raw_table["admission_chart"] = admission_chart
-    write_csvs(raw_table, RAW_BLOB_DIR)
+    write_csvs(raw_table, RAW_DATA_DIR)
     return visit_id
 
 
@@ -77,12 +77,12 @@ def add_event(visit_id: str, event_type: str, value: str) -> str:
     if event_type not in allowed_event_types:
         raise ValueError(f"event_type must be one of {sorted(allowed_event_types)}")
 
-    raw_table = {"patient_events": pd.read_csv(RAW_BLOB_DIR / "patient_events.csv")}
+    raw_table = {"patient_events": pd.read_csv(RAW_DATA_DIR / "patient_events.csv")}
     patient_events = raw_table["patient_events"]
     event_id = _next_id(patient_events, "event_id", "EVT-", 8)
     event_ts = pd.Timestamp.now().floor("min")
 
-    admission_chart = pd.read_csv(RAW_BLOB_DIR / "admission_chart.csv")
+    admission_chart = pd.read_csv(RAW_DATA_DIR / "admission_chart.csv")
     matches = admission_chart.loc[admission_chart["visit_id"] == visit_id]
     if matches.empty:
         raise ValueError(f"visit_id not found in admission_chart.csv: {visit_id}")
@@ -102,40 +102,40 @@ def add_event(visit_id: str, event_type: str, value: str) -> str:
 
     patient_events = pd.concat([patient_events, new_event], ignore_index=True)
     raw_table["patient_events"] = patient_events
-    write_csvs(raw_table, RAW_BLOB_DIR)
+    write_csvs(raw_table, RAW_DATA_DIR)
     return event_id
 
 
 def update_event(event_id: str, value: str) -> None:
-    raw_table = {"patient_events": pd.read_csv(RAW_BLOB_DIR / "patient_events.csv")}
+    raw_table = {"patient_events": pd.read_csv(RAW_DATA_DIR / "patient_events.csv")}
     patient_events = raw_table["patient_events"]
     if not patient_events["event_id"].eq(event_id).any():
         raise ValueError(f"event_id not found in patient_events.csv: {event_id}")
     patient_events.loc[patient_events["event_id"] == event_id, "value"] = value
     raw_table["patient_events"] = patient_events
-    write_csvs(raw_table, RAW_BLOB_DIR)
+    write_csvs(raw_table, RAW_DATA_DIR)
 
 
 def remove_event(event_id: str) -> None:
-    raw_table = {"patient_events": pd.read_csv(RAW_BLOB_DIR / "patient_events.csv")}
+    raw_table = {"patient_events": pd.read_csv(RAW_DATA_DIR / "patient_events.csv")}
     patient_events = raw_table["patient_events"]
     if not patient_events["event_id"].eq(event_id).any():
         raise ValueError(f"event_id not found in patient_events.csv: {event_id}")
     patient_events = patient_events[patient_events["event_id"] != event_id]
     raw_table["patient_events"] = patient_events
-    write_csvs(raw_table, RAW_BLOB_DIR)
+    write_csvs(raw_table, RAW_DATA_DIR)
 
 
 def retrieve_back_up() -> None:
-    if not BACKUP_BLOB_DIR.exists():
-        raise FileNotFoundError(f"Backup folder not found: {BACKUP_BLOB_DIR}")
+    if not BACKUP_DATA_DIR.exists():
+        raise FileNotFoundError(f"Backup folder not found: {BACKUP_DATA_DIR}")
 
-    RAW_BLOB_DIR.mkdir(parents=True, exist_ok=True)
+    RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
     for file_name in EDITABLE_RAW_FILES:
-        source = BACKUP_BLOB_DIR / file_name
+        source = BACKUP_DATA_DIR / file_name
         if not source.exists():
             raise FileNotFoundError(f"Backup file not found: {source}")
-        shutil.copy2(source, RAW_BLOB_DIR / file_name)
+        shutil.copy2(source, RAW_DATA_DIR / file_name)
 
 
 # if __name__ == "__main__":

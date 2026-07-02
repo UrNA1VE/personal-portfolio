@@ -1,12 +1,14 @@
-# Azure Function Python ETL Plan
+# Future Serverless ETL Plan
 
-Placeholder for converting the local Python loader into a serverless ETL step.
+Placeholder for possible future serverless ETL work.
 
-Planned responsibilities:
+Current demo scope keeps ETL inside the Streamlit container. The app writes generated data and transformed outputs to container-local folders only, with no long-term cloud storage.
 
-- Read synthetic CSV files from Azure Blob Storage
+Future responsibilities could include:
+
 - Validate schema, required fields, date ranges, and nonnegative capacity values
-- Load clean records into Azure SQL staging tables
-- Write validation summaries and error records to SQL/reporting outputs
+- Run DuckDB/dbt-style transformations outside the Streamlit request cycle
+- Export validation summaries and reporting outputs
+- Optionally connect to persistent storage if future requirements need it
 
-The first implementation can reuse logic from `etl/synthetic_data_generator/` and the current local PostgreSQL loader as reference material.
+The current implementation reuses logic from `etl/synthetic_data_generator/` and `etl/pipeline/run_container_pipeline.py`.
